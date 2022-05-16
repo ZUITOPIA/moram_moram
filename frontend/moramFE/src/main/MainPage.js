@@ -10,7 +10,10 @@ import axios from 'axios'
 const MainPage = ({navigation}) => {
 
     const testDjango = async () => {
-        axios.get('http://192.168.147.148:8000/')
+        axios.get('http://192.168.0.24:8080/hello/')
+            .then(res => {
+                console.log(res.data)
+            })
     }
     
     
@@ -80,7 +83,7 @@ const MainPage = ({navigation}) => {
                 />
                 <View style={styles.gotoPostIconBox}>
                     {/* <TouchableOpacity style={styles.addIconButton} onPress={() => navigation.navigate('Post')}> */}
-                    <TouchableOpacity style={styles.addIconButton} onPress={() => {testDjango()}}>
+                    <TouchableOpacity style={styles.addIconButton} onPress={testDjango}>
                         {/* <Icon name="add" size={53} color="#fff" /> */}
                         <AwesomeIcon name="plus" size={53} color="#fff" />
                     </TouchableOpacity>
