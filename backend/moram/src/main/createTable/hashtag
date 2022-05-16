@@ -1,0 +1,7 @@
+CREATE TABLE hashtag (
+    hashtag_id INT NOT NULL AUTO_INCREMENT,
+    tag VARCHAR(50) NOT NULL,
+    board_id INT NOT NULL,
+    PRIMARY KEY (hashtag_id),
+    FOREIGN KEY (board_id) REFERENCES board (board_id)
+);

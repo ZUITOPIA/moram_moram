@@ -3,13 +3,15 @@ import { View, StatusBar, TextInput, Text, StyleSheet, Dimensions, SafeAreaView,
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Icon from "react-native-vector-icons/Ionicons";
 import EvilIcon from "react-native-vector-icons/EvilIcons";
+import axios from "axios";
+import { HOST } from '../../ipConfig';
 
-const PostPage = ({ navigation }) => {
+const PostPage = ({ navigation, route }) => {
 
+    let { today } = route.params;
     const [image, setImage] = useState(null);
     const [diray, setDiary] = useState("Autumn is an interesting season, even in the metaphor of life, is a time of decline, of loss, but also intense and haunting beauty.");
     const [bottomShow, setBottomShow] = useState(true)
-
 
     const selectImage = () => {
         launchImageLibrary({includeBase64: true, selectionLimit: 0}, response => {
@@ -17,13 +19,34 @@ const PostPage = ({ navigation }) => {
                 console.log('User cancelled image picker')
             } else {
                 setImage(response);
+                // console.log(JSON.stringify(response))
+                // console.log(typeof(response.assets[0].uri))
+                console.log(typeof(response.assets[0].base64)) 
             }
         })
     }
 
+    const uploadImage = () => {
+        // let img = JSON.stringify(image)
+        let config = { uri: image.assets[0].base64 }
+        axios.post(`${HOST}/board/uploadImage/`, config)
+    }
+
+    const submitDiray = () => {
+        let config = {
+            date: today,
+            contents: '두번째 일기',
+            uri: image
+        }
+        axios.post(`${HOST}/board/makeBoard/`, config)
+            .then(res => {
+                console.log(res.data)
+            })
+    }
+
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: '2022/05/15',
+            headerTitle: today.replace(/-/g, '/'),
             headerLeft: () => (
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Icon name='ios-arrow-back-sharp' size={40} color='#cfcfcf' />
@@ -31,6 +54,8 @@ const PostPage = ({ navigation }) => {
             ),
         })
     })
+
+    console.log(HOST)
 
     return (
         <SafeAreaView style={styles.container}>
@@ -64,7 +89,7 @@ const PostPage = ({ navigation }) => {
                     multiline={true}
                 />
                 <View style={styles.submitIconBox}>
-                    <TouchableOpacity style={bottomShow ? styles.submitButton : {display: 'none'}}>
+                    <TouchableOpacity style={bottomShow ? styles.submitButton : {display: 'none'}} onPress={() => uploadImage()}>
                         <EvilIcon name="pencil" size={55} color="#fff" style={styles.submitIcon} />
                     </TouchableOpacity>
                 </View>

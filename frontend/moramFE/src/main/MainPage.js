@@ -4,10 +4,12 @@ import { View, Text, SafeAreaView, StatusBar, ScrollView, StyleSheet, Dimensions
 import { Calendar } from "react-native-calendars";
 import YearMonthHeader from "./YearMonthHeader";
 import Icon from 'react-native-vector-icons/Ionicons';
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios'
 
 const MainPage = ({navigation}) => {
+
+    const [day, setDay] = useState('')
 
     const testDjango = async () => {
         axios.get('http://192.168.0.24:8080/hello/')
@@ -17,29 +19,19 @@ const MainPage = ({navigation}) => {
     }
     
     
-    // let getDisablesDates = () => {
-    //     let today = new Date()
-    //     let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-    //     let customToday = { }
+    let getDateInfo = () => {
+        let today = new Date()
+        let year = today.getFullYear().toString()
+        let month = today.getMonth()+1 < 10 ? '0'+(today.getMonth()+1).toString() : (today.getMonth()+1).toString()
+        let date = today.getDate() < 10 ? '0'+today.getDate().toString() : today.getDate().toString()
 
-    //     customToday[date] = {customStyles: {
-    //         container: {
-    //           backgroundColor: 'green'
-    //         },
-    //         text: {
-    //           color: 'black',
-    //           fontWeight: 'bold'
-    //         }
-    //     }}
-    //     console.log(customToday)
-    //     return customToday
-    // }
-    let today = new Date()
-    let markedDay = {}
-    let dates = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-    console.log(dates)
-    let day = '2022-05-15'
-    
+        return year+'-'+month+'-'+date
+    }
+
+    useEffect(() => {
+        let today = getDateInfo()
+        setDay(today)
+    })
 
     return (
         <SafeAreaView>
@@ -47,6 +39,9 @@ const MainPage = ({navigation}) => {
                 <View style={styles.background}>
                 <YearMonthHeader />
                 <Calendar 
+                    onDayPress={pressedDay => {
+                        navigation.navigate('Post', {today: pressedDay.dateString})
+                    }}
                     style={{
                         marginLeft: '5%',
                         marginRight: '5%'
@@ -82,10 +77,9 @@ const MainPage = ({navigation}) => {
                     }}
                 />
                 <View style={styles.gotoPostIconBox}>
-                    {/* <TouchableOpacity style={styles.addIconButton} onPress={() => navigation.navigate('Post')}> */}
-                    <TouchableOpacity style={styles.addIconButton} onPress={testDjango}>
+                    <TouchableOpacity style={styles.addIconButton} onPress={() => navigation.navigate('Post', {today: day})}>
                         {/* <Icon name="add" size={53} color="#fff" /> */}
-                        <AwesomeIcon name="plus" size={53} color="#fff" />
+                        <AwesomeIcon name="plus" size={40} color="#fff" style={styles.addIcon} />
                     </TouchableOpacity>
                 </View>
                 </View>
@@ -126,7 +120,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#9293c3'
     },
     addIcon: {
-        borderRadius: 30
+        marginTop: width * 0.01,
     }
 })
 
