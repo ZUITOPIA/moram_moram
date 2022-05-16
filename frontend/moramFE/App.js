@@ -1,13 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import type {Node} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -18,95 +9,66 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+import MainPage from './src/main/MainPage';
+import FeedPage from './src/feed/FeedPage';
+import PostPage from './src/post/PostPage';
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+const Stack = createNativeStackNavigator();
+
+const App = () => {
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen 
+          name='Main' 
+          component={MainPage} 
+          options={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: 'white'
+            }
+          }}
+        />
+        <Stack.Screen 
+          name='Feed' 
+          component={FeedPage} 
+          options={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: 'white'
+            }
+          }}
+        />
+        <Stack.Screen 
+          name='Post' 
+          component={PostPage} 
+          options={{
+            headerRight: () => (
+              <Icon name='ios-ellipsis-horizontal-sharp' size={30} color='#cfcfcf' />
+            ),
+            headerTitleStyle: {
+              fontFamily: 'Inter-Bold',
+            },
+            headerShadowVisible: false,
+            headerStyle: {
+              elevation: 0,
+            },
+            headerTitleAlign: 'center',
+            contentStyle: {
+              backgroundColor: 'white',
+            }
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
