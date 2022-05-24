@@ -11,11 +11,12 @@ public class ImageRequestDto {
 
     private String uri;
 
+    private String fileName;
     private Board board;
 
-    public Image toEntity() {
+    public Image toEntity(Board board, String fileName) {
         return Image.builder()
-                .uri(uri)
+                .filename(fileName)
                 .board(board)
                 .build();
     }

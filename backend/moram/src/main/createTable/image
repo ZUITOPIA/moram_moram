@@ -1,6 +1,6 @@
 CREATE TABLE image (
     image_id INT NOT NULL AUTO_INCREMENT,
-    uri VARCHAR(3000) NOT NULL,
+    filename VARCHAR(3000) NOT NULL,
     board_id INT NOT NULL,
     PRIMARY KEY (image_id),
     FOREIGN KEY (board_id) REFERENCES board (board_id)

@@ -18,15 +18,15 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String uri;
+    private String filename;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
     @Builder
-    public Image(String uri, Board board) {
-        this.uri = uri;
+    public Image(String filename, Board board) {
+        this.filename = filename;
         this.board = board;
     }
 }

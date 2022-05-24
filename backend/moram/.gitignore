@@ -1,4 +1,8 @@
 HELP.md
+/build/resources/main/images/
+src/main/resources/images/
+src/main/images/
+src/main/resources/static/images/
 src/main/resources/application.yml
 .gradle
 build/

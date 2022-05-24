@@ -5,6 +5,8 @@ import com.bojisa.moram.entity.board.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 public class DiaryRequestDto {
@@ -13,7 +15,10 @@ public class DiaryRequestDto {
 
     private String contents;
 
-    private String uri;
+
+    private List<String> fileNames;
+
+    private List<String> hashTags;
 
     public Board toBoardEntity() {
         return Board.builder()
@@ -22,11 +27,5 @@ public class DiaryRequestDto {
                 .build();
     }
 
-    public Image toImageEntity(Board board) {
-        return Image.builder()
-                .uri(uri)
-                .board(board)
-                .build();
-    }
 }
 
