@@ -1,6 +1,6 @@
 # IT Project of Sookmyung: 모람모람📒
 
-- 🏆 제 1회 IPS 대상(Naver D2상) 수상작
+- 🏆 제 2회 IPS 대상(Naver D2상) 수상작
 - 목차
     - [아이디어](#🌟-아이디어)
     - [기술 소개](#🦾-기술-소개)
